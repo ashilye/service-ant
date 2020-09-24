@@ -4,6 +4,7 @@ package com.maple.sysant.controller;
 import com.maple.sysant.common.lang.Result;
 import com.maple.sysant.entity.UserLogin;
 import com.maple.sysant.service.UserLoginService;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ public class UserLoginController {
     @Autowired
     UserLoginService userLoginService;
 
+    @RequiresAuthentication
     @GetMapping("/index")
     public Result index(){
         UserLogin userLogin = userLoginService.getById(1);
