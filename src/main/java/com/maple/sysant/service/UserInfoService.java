@@ -1,7 +1,9 @@
 package com.maple.sysant.service;
 
+import com.maple.sysant.common.lang.Result;
 import com.maple.sysant.entity.UserInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.maple.sysant.vo.request.RegisterVO;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UserInfoService extends IService<UserInfo> {
 
+    Result register(RegisterVO vo);
 }
