@@ -16,4 +16,6 @@ import com.maple.sysant.vo.request.RegisterVO;
 public interface UserInfoService extends IService<UserInfo> {
 
     Result register(RegisterVO vo);
+
+    UserInfo getUserInfoByName(String userName);
 }

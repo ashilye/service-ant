@@ -27,6 +27,10 @@ public class Result implements Serializable {
         return fail(Constants.RESULT_FAIL, msg, null);
     }
 
+    public static Result fail(int code,String msg) {
+        return fail(code, msg, null);
+    }
+
     public static Result fail(String msg, Object data) {
         return fail(Constants.RESULT_FAIL, msg, data);
     }

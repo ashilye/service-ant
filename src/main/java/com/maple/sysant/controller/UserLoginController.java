@@ -4,12 +4,12 @@ package com.maple.sysant.controller;
 import com.maple.sysant.common.lang.Result;
 import com.maple.sysant.entity.UserLogin;
 import com.maple.sysant.service.UserLoginService;
+import com.maple.sysant.shiro.AccountProfile;
+import com.maple.sysant.vo.request.LoginVO;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -31,5 +31,16 @@ public class UserLoginController {
     public Result index(){
         UserLogin userLogin = userLoginService.getById(1);
         return Result.success(userLogin);
+    }
+
+
+    @PostMapping("/login")
+    public Result login(@Validated @RequestBody LoginVO vo){
+        AccountProfile profile = userLoginService.onLoginByUserName(vo);
+        if(profile == null){
+            return Result.fail("用户名或密码错误!!!");
+        }else {
+            return Result.success(profile);
+        }
     }
 }
