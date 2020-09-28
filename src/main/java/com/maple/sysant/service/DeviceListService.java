@@ -2,6 +2,9 @@ package com.maple.sysant.service;
 
 import com.maple.sysant.entity.DeviceList;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.maple.sysant.vo.request.BindDeviceVO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface DeviceListService extends IService<DeviceList> {
 
+    int bindDevice(BindDeviceVO vo);
+
+    List<DeviceList> getDeviceById(String id);
 }

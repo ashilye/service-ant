@@ -38,11 +38,11 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
     @Override
     public Result register(RegisterVO vo) {
+        QueryWrapper<UserInfo> wrapper = new QueryWrapper();
+        wrapper.eq("user_name",vo.getUserName());
+        UserInfo userInfo = baseMapper.selectOne(wrapper);
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("user_name",vo.getUserName());
-        List<UserInfo> userInfos = baseMapper.selectByMap(map);
-        if(userInfos == null || userInfos.isEmpty()){
+        if(userInfo == null){
             UserInfo user = new UserInfo();
             BeanUtils.copyProperties(vo,user);
             user.setToken("token");
