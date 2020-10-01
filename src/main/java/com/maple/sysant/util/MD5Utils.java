@@ -1,5 +1,7 @@
 package com.maple.sysant.util;
 
+import com.maple.sysant.common.exception.GlobalException;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -27,7 +29,7 @@ public final class MD5Utils {
             return new String(chars);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            throw new RuntimeException("MD5加密出错！！！" + e);
+            throw new GlobalException("MD5加密出错！！！" + e);
         }
     }
 

@@ -1,7 +1,9 @@
 package com.maple.sysant.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.maple.sysant.common.exception.GlobalException;
 import com.maple.sysant.common.exception.GlobalExceptionHandler;
+import com.maple.sysant.common.lang.Result;
 import com.maple.sysant.entity.UserInfo;
 import com.maple.sysant.entity.UserLogin;
 import com.maple.sysant.mapper.UserLoginMapper;
@@ -45,33 +47,33 @@ public class UserLoginServiceImpl extends ServiceImpl<UserLoginMapper, UserLogin
 
 
     @Override
-    public AccountProfile onLoginByUserName(LoginVO vo) {
+    public Result onLoginByUserName(LoginVO vo) {
         if(StringUtils.isEmpty(vo.getUserName()) || StringUtils.isEmpty(vo.getPassword())){
-            throw new RuntimeException("用户名或密码错误!");
+            throw new GlobalException("用户名或密码错误!");
         }
 
         QueryWrapper<UserLogin> wrapper = new QueryWrapper();
         wrapper.eq("user_name",vo.getUserName());
         UserLogin userLogin = baseMapper.selectOne(wrapper);
         if(userLogin == null){
-             throw new RuntimeException("未注册!");
+             return Result.fail("未注册!");
         }
 
         if(StringUtils.isEmpty(vo.getUserName()) || StringUtils.isEmpty(vo.getPassword())){
-            throw new RuntimeException("用户名或密码错误!!!");
+            return Result.fail("用户名或密码错误!");
         }
 
         if(!StringUtils.equals(userLogin.getPassword(),MD5Utils.encrypt(vo.getPassword()))){
-            throw new RuntimeException("密码错误!!!");
+            return Result.fail("用户名或密码错误!!!");
         }
 
         UserInfo userInfo = userInfoService.getUserInfoByName(vo.getUserName());
         if(userInfo == null){
-            throw new RuntimeException("未注册!!!");
+            return Result.fail("未注册!!!");
         }
 
         AccountProfile profile = new AccountProfile();
         BeanUtils.copyProperties(userInfo,profile);
-        return profile;
+        return Result.success(profile);
     }
 }

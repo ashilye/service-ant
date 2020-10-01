@@ -6,6 +6,7 @@ import com.maple.sysant.entity.UserLogin;
 import com.maple.sysant.service.UserLoginService;
 import com.maple.sysant.shiro.AccountProfile;
 import com.maple.sysant.vo.request.LoginVO;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
  * @author gaoguanqi
  * @since 2020-09-23
  */
+@Slf4j
 @RestController
 @RequestMapping("/user-login")
 public class UserLoginController {
@@ -36,11 +38,7 @@ public class UserLoginController {
 
     @PostMapping("/login")
     public Result login(@Validated @RequestBody LoginVO vo){
-        AccountProfile profile = userLoginService.onLoginByUserName(vo);
-        if(profile == null){
-            return Result.fail("用户名或密码错误!!!");
-        }else {
-            return Result.success(profile);
-        }
+        log.info("login:={}",vo.getUserName()+"--"+vo.getPassword());
+        return userLoginService.onLoginByUserName(vo);
     }
 }

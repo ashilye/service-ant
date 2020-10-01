@@ -2,6 +2,7 @@ package com.maple.sysant.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.maple.sysant.common.exception.GlobalException;
 import com.maple.sysant.entity.DeviceList;
 import com.maple.sysant.entity.UserInfo;
 import com.maple.sysant.mapper.DeviceListMapper;
@@ -32,20 +33,20 @@ public class DeviceListServiceImpl extends ServiceImpl<DeviceListMapper, DeviceL
     @Override
     public int bindDevice(BindDeviceVO vo) {
         if(StringUtils.isEmpty(vo.getUserName()) || StringUtils.isEmpty(vo.getDeviceCode())){
-            throw new RuntimeException("输入错误!!!");
+            throw new GlobalException("输入错误!!!");
         }
 
         UserInfo userInfo = userInfoService.getUserInfoByName(vo.getUserName());
         if(userInfo == null){
-            throw new RuntimeException("绑定失败!");
+            throw new GlobalException("绑定失败!");
         }
 
         if(!org.apache.commons.lang3.StringUtils.equals(vo.getDeviceCode(),userInfo.getDeviceCode())){
-            throw new RuntimeException("设备码错误!");
+            throw new GlobalException("设备码错误!");
         }
 
         if(StringUtils.isEmpty(vo.getDeviceModel()) || vo.getScreenWidth() <= 0 || vo.getScreenHeigth() <= 0){
-            throw new RuntimeException("绑定失败!!!");
+            throw new GlobalException("绑定失败!!!");
         }
 
         DeviceList deviceList = new DeviceList();

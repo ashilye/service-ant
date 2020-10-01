@@ -1,5 +1,6 @@
 package com.maple.sysant.service;
 
+import com.maple.sysant.common.lang.Result;
 import com.maple.sysant.entity.UserLogin;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.maple.sysant.shiro.AccountProfile;
@@ -16,5 +17,5 @@ import com.maple.sysant.vo.request.LoginVO;
 public interface UserLoginService extends IService<UserLogin> {
     int insertUser(UserLogin user);
 
-    AccountProfile onLoginByUserName(LoginVO vo);
+    Result onLoginByUserName(LoginVO vo);
 }
