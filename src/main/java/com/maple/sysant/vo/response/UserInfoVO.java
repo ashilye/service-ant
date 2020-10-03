@@ -11,5 +11,6 @@ public class UserInfoVO implements Serializable {
     private String introduction;
     private String name;
     private List<String> roles;
+    private String userId;
 
 }

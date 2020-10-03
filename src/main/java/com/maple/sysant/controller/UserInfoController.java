@@ -75,6 +75,7 @@ public class UserInfoController {
         userInfoVO.setIntroduction(userInfo.getNickName());
         userInfoVO.setName(userInfo.getUserName());
         userInfoVO.setRoles(Arrays.asList(String.valueOf(userInfo.getUserType())));
+        userInfoVO.setUserId(String.valueOf(userInfo.getId()));
         return Result.success("查询成功！",userInfoVO);
     }
 
