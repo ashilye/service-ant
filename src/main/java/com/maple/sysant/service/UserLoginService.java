@@ -18,4 +18,8 @@ public interface UserLoginService extends IService<UserLogin> {
     int insertUser(UserLogin user);
 
     Result onLoginByUserName(LoginVO vo);
+
+    Result login(LoginVO vo);
+
+    Result logout(String token);
 }

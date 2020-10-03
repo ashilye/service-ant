@@ -32,13 +32,27 @@ public class UserLoginController {
     @GetMapping("/index")
     public Result index(){
         UserLogin userLogin = userLoginService.getById(1);
-        return Result.success(userLogin);
+        return Result.success("测试index",userLogin);
     }
+
+
+//    @PostMapping("/login")
+//    public Result login(@Validated @RequestBody LoginVO vo){
+//        log.info("login:={}",vo.getUserName()+"--"+vo.getPassword());
+//        return userLoginService.onLoginByUserName(vo);
+//    }
+
 
 
     @PostMapping("/login")
     public Result login(@Validated @RequestBody LoginVO vo){
         log.info("login:={}",vo.getUserName()+"--"+vo.getPassword());
-        return userLoginService.onLoginByUserName(vo);
+        return userLoginService.login(vo);
     }
+
+    @PostMapping("/logout")
+    public Result logout(@RequestHeader("Authorization") String token){
+        return userLoginService.logout(token);
+    }
+
 }

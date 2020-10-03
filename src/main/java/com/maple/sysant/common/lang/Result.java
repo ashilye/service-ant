@@ -11,8 +11,8 @@ public class Result implements Serializable {
     private String msg;
     private Object data;
 
-    public static Result success(Object data) {
-        return success(Constants.RESULT_SUCCESS, "操作成功", data);
+    public static Result success(String msg,Object data) {
+        return success(Constants.RESULT_SUCCESS, msg, data);
     }
 
     public static Result success(String msg) {

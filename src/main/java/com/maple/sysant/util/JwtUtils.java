@@ -19,21 +19,21 @@ import java.util.Date;
 @ConfigurationProperties(prefix = "maple.jwt")
 public class JwtUtils {
 
-    private String secret;
+    private String secret = "userName";
     private long expire;
     private String header;
 
     /**
      * 生成jwt token
      */
-    public String generateToken(long userId) {
+    public String generateToken(String userName) {
         Date nowDate = new Date();
         //过期时间
         Date expireDate = new Date(nowDate.getTime() + expire * 1000);
 
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
-                .setSubject(userId+"")
+                .setSubject(userName)
                 .setIssuedAt(nowDate)
                 .setExpiration(expireDate)
                 .signWith(SignatureAlgorithm.HS512, secret)

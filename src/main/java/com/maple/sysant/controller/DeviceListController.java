@@ -40,7 +40,7 @@ public class DeviceListController {
     public Result getDeviceById(@RequestParam("userId") String userId){
         List<DeviceList> list = deviceListService.getDeviceById(userId);
         if(list != null && !list.isEmpty()){
-            return Result.success(list);
+            return Result.success("查询成功！",list);
         }else {
             return Result.fail("查询失败!!!");
         }

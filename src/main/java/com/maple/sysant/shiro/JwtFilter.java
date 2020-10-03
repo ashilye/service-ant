@@ -4,6 +4,7 @@ import cn.hutool.json.JSONUtil;
 import com.maple.sysant.common.lang.Result;
 import com.maple.sysant.util.JwtUtils;
 import io.jsonwebtoken.Claims;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExpiredCredentialsException;
@@ -19,7 +20,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+@Slf4j
 @Component
 public class JwtFilter extends AuthenticatingFilter {
 
@@ -30,7 +31,8 @@ public class JwtFilter extends AuthenticatingFilter {
     protected AuthenticationToken createToken(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        String jwt = request.getHeader("Authorization");
+        //todo redis  Authorization
+        String jwt = request.getHeader("X-Authorization");
         if(StringUtils.isEmpty(jwt)) {
             return null;
         }
@@ -42,11 +44,13 @@ public class JwtFilter extends AuthenticatingFilter {
     protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
 
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        String jwt = request.getHeader("Authorization");
+        //todo redis  Authorization
+        String jwt = request.getHeader("X-Authorization");
         if(StringUtils.isEmpty(jwt)) {
             return true;
         } else {
 
+            log.info("jwt=>{}",jwt);
             // 校验jwt
             Claims claim = jwtUtils.getClaimByToken(jwt);
             if(claim == null || jwtUtils.isTokenExpired(claim.getExpiration())) {

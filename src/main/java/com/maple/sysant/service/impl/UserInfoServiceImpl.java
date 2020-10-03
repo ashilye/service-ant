@@ -10,6 +10,7 @@ import com.maple.sysant.service.UserInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.maple.sysant.service.UserLoginService;
 import com.maple.sysant.shiro.AccountProfile;
+import com.maple.sysant.util.JwtUtils;
 import com.maple.sysant.util.MD5Utils;
 import com.maple.sysant.vo.request.RegisterVO;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -36,16 +37,19 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     @Autowired
     UserLoginService userLoginService;
 
+    @Autowired
+    JwtUtils jwtUtils;
+
     @Override
     public Result register(RegisterVO vo) {
         QueryWrapper<UserInfo> wrapper = new QueryWrapper();
         wrapper.eq("user_name",vo.getUserName());
         UserInfo userInfo = baseMapper.selectOne(wrapper);
-
+        String token = jwtUtils.generateToken(vo.getUserName());
         if(userInfo == null){
             UserInfo user = new UserInfo();
             BeanUtils.copyProperties(vo,user);
-            user.setToken("token");
+            user.setToken(token);
             user.setDeviceCode(RandomStringUtils.randomNumeric(6));
             user.setCreateTime(LocalDateTime.now());
             user.setUpdateTime(LocalDateTime.now());
@@ -59,11 +63,11 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             int userInsert = baseMapper.insert(user);
             if(userInsert <= 0 || loginInsert <= 0){
                 //添加失败
-                return new GlobalExceptionHandler().handler(new RuntimeException("注册失败!!!"));
+                return Result.fail("注册失败!!!");
             }
             AccountProfile accountProfile = new AccountProfile();
             BeanUtils.copyProperties(user,accountProfile);
-            return Result.success(null);
+            return Result.success("注册成功～");
         }else {
             return Result.fail(409,"账号已存在！！！");
         }
